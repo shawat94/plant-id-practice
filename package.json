@@ -41,6 +41,8 @@
   "devDependencies": {
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.2",
+    "filereader": "^0.10.3"
   }
 }
