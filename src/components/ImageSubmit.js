@@ -1,22 +1,26 @@
 import { Button } from 'react-bootstrap'
 import React, { useState } from 'react'
 import PlantIdService from '../services/plantId'
+import CoordinateSubmit from './CoordinateSubmit'
 
-const ImageSubmit = ({ setSelectedImage, selectedImage }) => {
+const ImageSubmit = ({ setSelectedImages, selectedImages }) => {
 
     const [plantIdentity, setPlantIdentity] = useState('')
+    const [latitude, setLatitude] = useState('')
+    const [longitude, setLongitude] = useState('')
     
     const submitImage = async () => {
-        let encodedImage = await convertImageToBase64() 
-        let response = await PlantIdService.submitImage(encodedImage)
+        let encodedImage = await Promise.all(selectedImages.map((image) => convertImageToBase64(image)))
+        console.log(encodedImage)
+        let response = await PlantIdService.submitImage(encodedImage, latitude, longitude)
         let suggestions = response.data.suggestions
         setPlantIdentity(suggestions)
     }
 
-    const convertImageToBase64 = () => {
+    const convertImageToBase64 = (image) => {
             return new Promise((resolve, reject) => {
                 var fileReader = new FileReader()
-                fileReader.readAsDataURL(selectedImage)
+                fileReader.readAsDataURL(image)
                 fileReader.onload = () => {
                     resolve(fileReader.result.split(',')[1])
                 }
@@ -26,16 +30,16 @@ const ImageSubmit = ({ setSelectedImage, selectedImage }) => {
                 }
             }
         )
-    }
+    }   
 
     return (
         <div>
-            {selectedImage && (
+            {selectedImages && (
                 <div>
-                    <img alt="uploaded image" width={"250px"} src={URL.createObjectURL(selectedImage)} />
+                    {selectedImages.map((image) => <img alt="uploaded image" width={"250px"} src={URL.createObjectURL(image)} />)}
                     <br/>
                     <button onClick={ ()=> {
-                        setSelectedImage(null) 
+                        setSelectedImages(null) 
                         setPlantIdentity(null)
                     }}>Remove</button> 
                 </div>
@@ -44,10 +48,16 @@ const ImageSubmit = ({ setSelectedImage, selectedImage }) => {
 
             <input
                 type="file"
+                multiple
                 onChange={(event) => {
-                    setSelectedImage(event.target.files[0])
+                    console.log(Object.keys(event.target.files).map((key) => event.target.files[key]))
+                    setSelectedImages(Object.keys(event.target.files).map((key) => event.target.files[key]))
+                    console.log(selectedImages)
                 }}
             />
+            <br/>
+            <br/>
+            <CoordinateSubmit latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
             <br/>
             <button onClick={()=>submitImage()}>
                 Identify

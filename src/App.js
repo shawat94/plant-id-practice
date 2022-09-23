@@ -8,12 +8,12 @@ const config = require('./config')
 
 function App() {
 
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImages, setSelectedImages] = useState(null)
 
   return (
     <div className="App">
       <h1>Plant Identifier</h1>
-      <ImageSubmit selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+      <ImageSubmit selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>
     </div>
   );
 }

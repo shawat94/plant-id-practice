@@ -5,7 +5,7 @@ const baseUrl = 'https://plant.id/api/v2'
 
 let key = process.env.REACT_APP_PLANTID_KEY
 
-const submitImage = async (images) => {
+const submitImage = async (images, latitude, longitude) => {
     console.log(images)
 
     console.log('Submitting image')
@@ -19,8 +19,9 @@ const submitImage = async (images) => {
     }
 
     const requestObj = {
-        'images': [images],
-        'api-key': key
+        'images': images,
+        'latitude': latitude,
+        'longitude': longitude
     }
 
     const response = await axios.post(`${baseUrl}/identify`, requestObj, requestConfig)
