@@ -18,11 +18,13 @@ const submitImage = async (images, latitude, longitude) => {
         }
     }
 
-    const requestObj = {
+    const requestObj = (latitude & longitude) ? 
+    {
         'images': images,
         'latitude': latitude,
         'longitude': longitude
-    }
+    } : 
+    {'images': images}
 
     const response = await axios.post(`${baseUrl}/identify`, requestObj, requestConfig)
     console.log(response.data.suggestions)
