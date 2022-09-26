@@ -27,16 +27,13 @@ const ImageSubmit = ({ setSelectedImages, selectedImages }) => {
         border: '2px solid grey',
         backgroundColor: '#f0fff7',
         borderRadius: '10px',
-        height: '40vh',
+        minHeight: '40vh',
+        height: 'fit-content',
         position: 'relative'
     }
 
     const inputButtonStyle = {
-        position: 'absolute',
-        bottom: '20px',
-        left: '50%',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
+        margin: '8px'
     }
 
     const hiddenInputButtonStyle = {
@@ -86,9 +83,11 @@ const ImageSubmit = ({ setSelectedImages, selectedImages }) => {
                             }}>Remove</Button> 
                         </div>
                         )}
-                    <Button style={inputButtonStyle} variant="outlined" onClick={()=>fileInput.current.click()}>
-                        Upload Photos
-                    </Button>
+                    <div>
+                        <Button style={inputButtonStyle} variant="outlined" onClick={()=>fileInput.current.click()}>
+                            Upload Photos
+                        </Button>
+                    </div>
                     <input
                         style={hiddenInputButtonStyle}
                         ref={fileInput}
